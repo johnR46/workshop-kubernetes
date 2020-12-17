@@ -1,0 +1,22 @@
+#Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # ชื่อ Deployment
+  name: producer-deployment
+spec:
+  selector:
+    matchLabels:
+    # ชื่อ app
+      app:  producer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: producer
+    spec:
+      containers:
+        - name: producer
+          image: producer:1.0
+          ports:
+          - containerPort: 8081

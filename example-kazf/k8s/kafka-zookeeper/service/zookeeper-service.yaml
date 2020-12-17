@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-service
+  labels:
+   # ชื่อแอปที่จะ expose ด้วย service นี้
+    app: zookeeper
+spec:
+  ports:
+  - name: client
+    # port อันนี้ไปคุยกับ k
+    port: 2181
+  - name: follower
+    port: 2888
+  - name: leader
+    port: 3888
+  # ชื่อแอปที่จะ expose ด้วย service นี้
+  selector:
+    app: zookeeper
+
+
+
