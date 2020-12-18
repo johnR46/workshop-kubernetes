@@ -1,0 +1,56 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: employee-app
+  labels:
+    name: employee-app
+spec:
+  ports:
+    - nodePort: 30163
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: employee-app
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-app
+spec:
+  selector:
+    matchLabels:
+      app: employee-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: employee-app
+    spec:
+      containers:
+        - name: employee-app
+          image: employee-app:1.1
+          ports:
+            - containerPort: 8080
+          env:   # Setting Enviornmental Variables
+            - name: DB_HOST   # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config  # name of configMap
+                  key: host
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: name
+            - name: DB_USERNAME  # Setting Database username from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-user # Secret Name
+                  key: username
+            - name: DB_PASSWORD # Setting Database password from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-user
+                  key: password

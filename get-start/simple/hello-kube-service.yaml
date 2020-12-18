@@ -1,0 +1,15 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-kube-service
+  labels:
+    app: hello-kube-service
+spec:
+  type: LoadBalancer 
+  selector:
+    app: hello-kube
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

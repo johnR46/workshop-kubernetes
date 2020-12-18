@@ -1,1 +1,0 @@
-https://www.magalix.com/blog/kafka-on-kubernetes-and-deploying-best-practice
